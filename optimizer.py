@@ -49,6 +49,7 @@ class FloorOptimizer:
             print(e)
 
     def set_params(self):  # hardcoded to accept only 4 rect and 2 variable path
+        """ rearrarnging parsed data and applying scaling factor """
         max_dimension = max(
             max(building['dimensions']) for building in self.building_params['buildings']
         )
@@ -75,6 +76,7 @@ class FloorOptimizer:
         return rectangles
 
     def compute_total_area(self):
+        """ computing initial total area of rectangles for target area to minimize during optimization ( mulitply 1.5) """
         # Calculate the total area area * 1.5 times
         total_area = sum(
             [rect['width'] * rect['height'] if 'height' in rect else rect['width'] * rect['max_height'] for rect in
@@ -83,6 +85,7 @@ class FloorOptimizer:
         print("the initial bounding area is:", self.total_area)
 
     def get_normalized_control_points(self):
+        """ random initial control points of positions and height ( or length) of rectangles """
         # Define initial control points
         initial_positions = np.array(
             [[0.1, 0.2], [0.3, 0.5], [0.2, 0.3], [0.3, 0.1], [0.1, 0.4],
@@ -94,12 +97,12 @@ class FloorOptimizer:
 
     # Helper function to create a non-rotated rectangle
     def create_rectangle(self, x, y, width, height):
-
+        """ function to draw a rectangle """
         corners = [(x, y), (x + width, y), (x + width, y + height), (x, y + height)]
         return Polygon(corners)
 
-    # callback function to store best result in case of premature termination of optimizer
     def callback(self, xk, convergence):
+        """callback function to store best result in case of premature termination of optimizer """
         current_value, bounding_area, penalty, variable_heights = self.objective_with_penalty(xk)
         print(
             f"Iteration: Objective value: {current_value}, Bounding Area: {bounding_area}, Penalty: {penalty}, Variable Heights: {variable_heights}")
@@ -112,6 +115,7 @@ class FloorOptimizer:
             # Objective function: minimize the bounding area and length of varing rectangles
 
     def objective_with_penalty(self, values):
+        """main objective function: minimze total rect bounding area and height/lenght of rectangles added with constraints """
         positions = values[:len(self.rectangles) * 2].reshape(-1, 2) * self.total_area
         variable_heights = [
             values[-2] * (self.rectangles[-2]['max_height'] - self.rectangles[-2]['min_height']) + self.rectangles[-2][
@@ -193,10 +197,12 @@ class FloorOptimizer:
         return objective_value, bounding_area, penalty, variable_heights
 
     def set_bounds_for_params(self):
+        """setting upper and lower bounds for the optimizer """
         self.bounds = [(0, 1) for _ in range(len(self.rectangles) * 2)] + [(0, 1) for _ in range(2)]
 
     # Run differential evolution optimization with increased iterations
     def run_optimizer(self):
+        """main optimizer function """
         print("Starting Optimization")
         self.result = differential_evolution(lambda x: self.objective_with_penalty(x)[0], self.bounds,
                                              maxiter=self.maxiter, callback=self.callback,
@@ -230,6 +236,7 @@ class FloorOptimizer:
         return positions, variable_heights, bounding_area
 
     def save_plot_result(self, is_show_plot=False):
+        """function to save png image of plot and json file output in output directory """
         # Denormalize positions and variable heights
         positions, variable_heights, bounding_area = self.denormalize_results()
         print("positions", positions)
