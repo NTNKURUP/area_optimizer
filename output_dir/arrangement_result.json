@@ -1,0 +1,96 @@
+{
+    "arrangement_id": 1,
+    "buildings": [
+        {
+            "name": "Building 1",
+            "location": [
+                246.360131925454,
+                2738.003695056244
+            ],
+            "dimensions": [
+                2800.0,
+                3300.0
+            ]
+        },
+        {
+            "name": "Building 2",
+            "location": [
+                1007.9601597011106,
+                825.2067016036806
+            ],
+            "dimensions": [
+                600.0,
+                850.0
+            ]
+        },
+        {
+            "name": "Building 3",
+            "location": [
+                3094.736633482126,
+                1073.7062051332477
+            ],
+            "dimensions": [
+                1500.0,
+                2450.0
+            ]
+        },
+        {
+            "name": "Building 4",
+            "location": [
+                4509.132709769448,
+                4804.249204650814
+            ],
+            "dimensions": [
+                400.0,
+                750.0
+            ]
+        },
+        {
+            "name": "Path 1",
+            "location": [
+                1780.3348244216188,
+                4202.8790891814915
+            ],
+            "dimensions": [
+                2.0,
+                68.3287458213942
+            ]
+        },
+        {
+            "name": "Path 2",
+            "location": [
+                2131.406325013588,
+                1591.0210949024429
+            ],
+            "dimensions": [
+                4.0,
+                695.4280407032743
+            ]
+        }
+    ],
+    "paths": [
+        {
+            "name": "Path 1",
+            "length": 2058.841164458552,
+            "connected_buildings": [
+                "Building 1",
+                "Building 2"
+            ],
+            "height_minimized": 1520.6347423069549
+        },
+        {
+            "name": "Path 2",
+            "length": 2101.520415028217,
+            "connected_buildings": [
+                "Building 2",
+                "Building 3"
+            ],
+            "height_minimized": 893.5354474250748
+        }
+    ],
+    "total_area": 16961753.26806505,
+    "objectives": {
+        "total_height_minimized": 763.7567865246685,
+        "total_area": 16961753.26806505
+    }
+}
